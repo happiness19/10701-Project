@@ -91,4 +91,21 @@ def load_audio(typeA, typeB):
     np.savetxt("../JA_mfcc",J)
     return X, y
 
+def load_preprocessed_audio():
+    A = np.loadtxt("../AR_mfcc")
+    J = np.loadtxt("../JA_mfcc")
+    X = np.vstack((A, J))
+    print(X.shape)
+    y = np.append(np.ones(len(A)), np.zeros(len(J)))
+    return X, y
+
+
+def preprocess():
+    for i in ["AR","CA","FR","GE","HI","JA","MA","MY","RU","SP","IT","KO"]:
+        print("Generating......" + i)
+        A = load_single_language_audio(i)
+        new_path = "../data/"+i+"_mfcc"
+        np.savetxt(new_path, A)
+
+preprocess()
     

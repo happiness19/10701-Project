@@ -4,7 +4,8 @@ from sklearn.cross_validation import train_test_split
 import audio as load
 import model as CNN
 
-X, y = load.load_audio("AR", "JA")
+# X, y = load.load_audio("IT", "KO")
+X, y = load.load_preprocessed_audio()
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15)
 

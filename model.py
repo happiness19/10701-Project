@@ -78,7 +78,7 @@ def run_network(train_dataset, test_dataset=None):
         eval_data, eval_labels = test_dataset
     # Create the Estimator
     accent_classifier = tf.estimator.Estimator(
-        model_fn=cnn_model_fn, model_dir="/tmp/firsttry")
+        model_fn=cnn_model_fn, model_dir="/tmp/thirdtry")
     
     # Set up logging for predictions
     # Log the values in the "Softmax" tensor with label "probabilities"
@@ -90,7 +90,7 @@ def run_network(train_dataset, test_dataset=None):
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
         x={"x": train_data},
         y=train_labels,
-        batch_size=100,
+        batch_size=10,
         num_epochs=None,
         shuffle=True)
     print("Training....")
@@ -98,7 +98,7 @@ def run_network(train_dataset, test_dataset=None):
     while (i < 20):
         accent_classifier.train(
             input_fn=train_input_fn,
-            steps=1000,
+            steps=100,
             hooks=[logging_hook])
         print("Training finished")
         
