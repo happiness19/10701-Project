@@ -65,8 +65,8 @@ def find_files(directory, pattern='*.wav'):
     return files
 
 def load_single_language_audio(directory):
-    # root = "../../../../../Downloads/cslu_fae/speech/"
-    root = "../test/"
+    root = "../../../../../Downloads/cslu_fae/speech/"
+    # root = "../test/"
     X = None
     initialized = False
     files = find_files(root + directory)
