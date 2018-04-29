@@ -49,7 +49,7 @@ def make_standard_length(filename, n_samps=240000):
 def make_librosa_mfcc(filename):
     y = make_standard_length(filename)
     mfcc_feat = librosa.feature.mfcc(y=y, sr=8000, n_mfcc=13)
-    return mfcc_feat
+    return (mfcc_feat.flatten())
 
 def randomize_files(files):
     for file in files:
@@ -65,36 +65,30 @@ def find_files(directory, pattern='*.wav'):
     return files
 
 def load_single_language_audio(directory):
-    root = "../../../../../Downloads/cslu_fae/speech/"
+    # root = "../../../../../Downloads/cslu_fae/speech/"
+    root = "../test/"
     X = None
     initialized = False
-    # files = find_files(root + directory)
-    files = find_files(directory)
+    files = find_files(root + directory)
     randomized_files = randomize_files(files)
     for filename in randomized_files:
         mfcc = make_librosa_mfcc(filename)
-        print("mfcc shape")
-        print(mfcc.shape)
-        print("end")
         if (not initialized):
             X = mfcc
             initialized = True
         else:
-            mfcc = np.reshape(1,13, 469)
-            X = np.append(X, mfcc, axis=0)
-    print(X.shape)
+            X = np.vstack((X, mfcc))
     return X
 
-def load_audio():
-    A = load_single_language_audio("AR")
+def load_audio(typeA, typeB):
+    A = load_single_language_audio(typeA)
+    print(A.shape)
     print("A done")
-    J = load_single_language_audio("JA")
-    X = np.append(A, J)
+    J = load_single_language_audio(typeB)
+    X = np.vstack((A, J))
     y = np.append(np.ones(len(A)), np.zeros(len(J)))
     np.savetxt("../AR_mfcc",A)
     np.savetxt("../JA_mfcc",J)
     return X, y
 
-# load_audio()
-load_single_language_audio("../test")
     
